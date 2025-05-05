@@ -1,4 +1,3 @@
-
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,11 +9,11 @@ load_dotenv()
 
 app = FastAPI()
 
-# Enable CORS
+# Fixed CORS configuration to allow requests from frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5000", "http://localhost:8000", "http://localhost:5001", ""],  # Allow all for testing
-    allow_methods=["*"],
+    allow_origins=["http://localhost:5000", "http://localhost:8000", "http://localhost:5001", "http://localhost:8080"],
+    allow_methods=["GET", "POST", "OPTIONS"],  # Fixed: Allow proper methods including OPTIONS for preflight
     allow_headers=["*"],
 )
 

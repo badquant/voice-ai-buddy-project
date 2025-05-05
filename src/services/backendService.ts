@@ -1,7 +1,7 @@
 
 import { toast } from "sonner";
 
-const API_URL = "http://localhost:8000"; // Change this to match your backend URL
+const API_URL = "http://localhost:8000"; // Make sure this matches your backend URL
 
 interface TokenRequestParams {
   roomName: string;

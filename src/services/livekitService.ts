@@ -1,4 +1,3 @@
-
 import { Room, RoomEvent, LocalParticipant, RemoteParticipant, RemoteTrackPublication, RemoteTrack, DataPacket_Kind, ConnectionState } from "livekit-client";
 import { getToken } from "./backendService";
 import { toast } from "sonner";
@@ -100,10 +99,11 @@ class LiveKitService {
         participantIdentity: identity,
       });
 
-      await this.room.connect(token, {
-        autoSubscribe: true,
+      // Fixed: Connect with proper parameters - URL and token
+      await this.room.connect("wss://jazz-sales-o2pqg79t.livekit.cloud", token, {
+        autoSubscribe: true
       });
-
+      
       console.log("Connected to room:", this.room.name);
       
       // Enable local audio
@@ -126,10 +126,10 @@ class LiveKitService {
     try {
       if (!this.room) return;
 
-      const localParticipant = this.room.localParticipant as LocalParticipant;
+      const localParticipant = this.room.localParticipant;
       
-      // Get local audio tracks
-      await localParticipant.enableMicrophone();
+      // Fixed: Use the correct method to enable microphone
+      await localParticipant.setMicrophoneEnabled(true);
       
       console.log("Local audio enabled");
     } catch (error) {
@@ -143,8 +143,10 @@ class LiveKitService {
     try {
       if (!this.room) return;
 
-      const localParticipant = this.room.localParticipant as LocalParticipant;
-      await localParticipant.disableMicrophone();
+      const localParticipant = this.room.localParticipant;
+      
+      // Fixed: Use the correct method to disable microphone
+      await localParticipant.setMicrophoneEnabled(false);
       
       console.log("Local audio disabled");
     } catch (error) {
